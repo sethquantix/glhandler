@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME   = glhandler.a
+NAME   = libglhandler.a
 CFLG   =  -Wextra -Wall -Werror -g -fsanitize=address
 FILES  = gl_objects.c
 SRCD   = srcs/
@@ -23,9 +23,9 @@ FRMCOS = -framework Appkit
 LIBD   = libs
 LIBFT  = $(LIBD)/libft
 MLX    = $(LIBD)/mlx
-GLEW   = $(LIBD)/glew
+GLEW   = $(LIBD)
 FRAMEWORKS = $(FROPEN) $(FRMCOS)
-INCD   = -Iincludes -I$(LIBFTI) -I$(MLXI) -I$(GLEW)
+INCD   = -Iincludes -I$(LIBFT) -I$(MLX) -I$(GLEW)
 
 all : $(NAME)
 

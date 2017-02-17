@@ -15,8 +15,21 @@
 
 #include <unistd.h>
 #include <stdlib.h>
-#include "glew.h"
+#include "GL/glew.h"
 #include <OpenGL/GL.h>
 #include "libft.h"
+
+# define T_GL_S(x, y)	(t_gl_shader){0, x, y}
+# define SZ_S			sizeof(t_gl_shader)
+
+typedef struct		s_gl_shader
+{
+	GLuint	id;
+	GLuint	type;
+	char	*file;
+}					t_gl_shader;
+
+GLuint		create_program(int shader_count, t_gl_shader *shaders);
+void		validate(GLuint program);
 
 #endif
