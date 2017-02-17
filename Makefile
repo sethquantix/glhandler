@@ -25,7 +25,7 @@ LIBFT  = $(LIBD)/libft
 MLX    = $(LIBD)/mlx
 GLEW   = $(LIBD)/glew
 FRAMEWORKS = $(FROPEN) $(FRMCOS)
-INCD   = -Iincludes -I$(LIBFTI) -I$(MLXI) -I$(GLEWINC)
+INCD   = -Iincludes -I$(LIBFTI) -I$(MLXI) -I$(GLEW)
 
 all : $(NAME)
 
