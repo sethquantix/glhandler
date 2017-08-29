@@ -6,7 +6,7 @@
 /*   By: cchaumar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/17 05:39:28 by cchaumar          #+#    #+#             */
-/*   Updated: 2017/02/17 05:39:29 by cchaumar         ###   ########.fr       */
+/*   Updated: 2017/02/26 05:09:25 by cchaumar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,24 +31,12 @@
 // 	return (id);
 // }
 
-static void	gl_compile_log(GLuint shader, char *name)
-{
-	char	*log_info;
-	GLint	size;
-
-	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &size);
-	log_info = try(size + 1);
-	glGetShaderInfoLog(shader, size, NULL, log_info);
-	ft_printf("Error compiling shader ! source name : %s\n%s", name, log_info);
-	free(log_info);
-}
-
-static void	release_shaders(GLuint program, int shader_count, t_gl_shader *shaders)
+static void	release_shaders(GLuint program, int count, t_gl_shader *shaders)
 {
 	int		i;
 
 	i = 0;
-	while (i < shader_count)
+	while (i < count)
 	{
 		glDetachShader(program, shaders[i].id);
 		glDeleteShader(shaders[i].id);
@@ -72,6 +60,7 @@ static GLuint	gl_link_info(GLuint program)
 		free(log_info);
 		return (0);
 	}
+	ft_printf("compiled !\n");
 	return (program);
 }
 
@@ -90,9 +79,7 @@ void			validate(GLuint program)
 
 GLuint			create_program(int shader_count, t_gl_shader *shaders)
 {
-	GLuint	shader;
 	GLuint	program;
-	char	*source;
 	int		i;
 	int		success;
 
@@ -100,19 +87,14 @@ GLuint			create_program(int shader_count, t_gl_shader *shaders)
 	program = glCreateProgram();
 	while (i < shader_count)
 	{
-		source = ft_read_file(shaders[i].file);
-		shader = glCreateShader(shaders[i].type);
-		shaders[i].id = shader;
-		glShaderSource(shader, 1, (const GLchar *const *)&source, NULL);
-		glCompileShader(shader);
-		glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+		success = compile_shader(&shaders[i]);
 		if (!success)
 		{
 			release_shaders(program, i, shaders);
-			gl_compile_log(shader, shaders[i].file);
 			glDeleteProgram(program);
+			return (0);
 		}
-		glAttachShader(program, shader);
+		glAttachShader(program, shaders[i].id);
 		i++;
 	}
 	glLinkProgram(program);

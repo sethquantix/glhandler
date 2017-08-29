@@ -6,13 +6,18 @@
 #    By: cchaumar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/23 12:31:27 by cchaumar          #+#    #+#              #
-#    Updated: 2017/02/17 05:47:51 by cchaumar         ###   ########.fr        #
+#    Updated: 2017/05/16 05:37:49 by cchaumar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME   = libglhandler.a
-CFLG   =  -Wextra -Wall -Werror -g -fsanitize=address
-FILES  = gl_objects.c
+CFLG   :=  -Wextra -Wall -Werror -g
+
+ifeq ($(ASAN),1)
+	CFLG += -fsanitize=address
+endif
+
+FILES  = gl_objects.c gl_math3d.c gl_shader.c
 SRCD   = srcs/
 OBJD   = objs/
 GITLIB = 'https://github.com\/sethquantix/libft.git'
